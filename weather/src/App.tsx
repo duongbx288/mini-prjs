@@ -1,49 +1,36 @@
 import { useState, useEffect } from "react";
 import Search from "./components/search/Search";
-import './assets/App.css';
+import "./assets/App.css";
 import Weather from "./components/weather/Weather";
-import { CURRENT_WEATHER_API, FORECAST_WEATHER_API, WEATHER_KEY } from "./api/WeatherAPI";
-import axios from "axios";
+import WeatherService from "./services/WeatherService";
 
-type SearchData {
+export type SearchData = {
   value: string;
-  label: string;
-}
-
+};
 
 function App() {
-
   const [currentWeather, setCurrentWeather] = useState();
   const [forecastWeather, setForecastWeather] = useState();
-  const [searchData, setSearchData] = useState<SearchData>({value: '', label: ''});
+  const [searchData, setSearchData] = useState<string>("");
 
-  useEffect(()=>{
-}, []);
-
-
-  const handleOnSearchChange = (searchData: any) => {
-    const [latitude, longitude] = searchData.value.split(" ");
-    console.log(searchData);
-    const currentWeatherFetch = axios.get(`${CURRENT_WEATHER_API}?lat=${latitude}&lon=${longitude}&appid=${WEATHER_KEY}`).then((res) => {
-      console.log(res);
-    });
-    const forecastWeatherFetch = axios.get(`${FORECAST_WEATHER_API}?lat=${latitude}&lon=${longitude}&appid=${WEATHER_KEY}`).then((res) => {
-      console.log(res);
-    });
-
-    // Promise.all([currentWeatherFetch, forecastWeatherFetch]).then((async (response) => {
-    //   const weatherRes = await response[0];
-    //   const forecastRes = await response[1];
-    //   setCurrentWeather({weatherRes});
-    //   setForecastWeather({forecastRes});
-    // }));
-  }
-
+  useEffect(() => {
+    if (searchData && searchData.length > 0) {
+      const [latitude, longitude] = searchData.split(" ");
+      WeatherService.getCurrentWeather(latitude, longitude).then((res) => {
+        if (res && res.data) setCurrentWeather(res.data);
+      });
+      WeatherService.getForecastWeather(latitude, longitude).then((res) => {
+        if (res && res.data) setForecastWeather(res.data);
+      });
+    }
+    console.log("current", currentWeather);
+    console.log("forecast", forecastWeather);
+  }, [searchData]);
 
   return (
     <div className="container">
-      <Search onSearchChange={handleOnSearchChange}/>
-      <Weather />
+      <Search onSearchChange={setSearchData} />
+      {currentWeather && <Weather data={currentWeather}/>}
     </div>
   );
 }

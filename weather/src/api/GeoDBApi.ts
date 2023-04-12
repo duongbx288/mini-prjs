@@ -30,16 +30,3 @@ export type Options = {
   key: string | number;
 };
 
-export const getLocation = (inputValue: any) => {
-  return axios
-    .get(`${URL}/cities?minPopulation=100000&namePrefix=${inputValue}`, config)
-    .then((response) => {
-      console.log(response.data);
-      return response.data;
-    })
-    .catch(function (error) {
-      console.error(error);
-    });
-
-
-};

@@ -1,6 +1,6 @@
 import "../../assets/weather.css";
 
-const Weather = () => {
+const Weather = (data: any) => {
   return (
     <div className="weather">
       <div className="top">
