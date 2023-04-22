@@ -2,6 +2,7 @@ import "./weather.css";
 
 // Data get from OpenWeatherAPI - check type there ?.
 const Weather = (data: any) => {
+
   return (
     <div className="weather">
       <div className="top">

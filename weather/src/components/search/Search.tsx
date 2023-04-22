@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
-import { CityInformation, config } from "../../api/GeoDBApi";
+import { CityInformation, Options, config } from "../../api/GeoDBApi";
 import axios from "axios";
-import { URL } from "../../api/GeoDBApi";
-import './search.css';
+import { GEO_URL } from "../../api/GeoDBApi";
+import "./search.css";
+import { Button } from "@mui/material";
 
 const Search = ({ onSearchChange }: any) => {
-  const [search, setSearch] = useState<string>("");
+  const [search, setSearch] = useState<Options>();
 
   useEffect(() => {}, [search]);
 
@@ -15,14 +16,35 @@ const Search = ({ onSearchChange }: any) => {
     onSearchChange(searchData.value);
   };
 
-  const onSearch = (a: any) => {
-    setSearch(a);
+  const getCurrentLocation = async () => {
+    await navigator.geolocation.getCurrentPosition((position) => {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+      if (position != null &&  position.coords.latitude != null &&  position.coords.longitude != null) {
+        axios
+          .get(
+            `${GEO_URL}/cities?location=%2B${position.coords.latitude.toFixed(4)}%2B${position.coords.longitude.toFixed(4)}`,
+            config
+          )
+          .then((result) => {
+            console.log(result);
+            if (result.data.data) {
+              const response = result.data.data[0];
+              setSearch({
+                value: `${response.latitude} ${response.longitude}`,
+                label: `${response.region}, ${response.countryCode}`,
+              } as Options);
+              onSearchChange(`${response.latitude} ${response.longitude}`);
+            }
+          });
+      }
+    });
   };
 
   const loadOptions = (input: string) => {
     return axios
       .get(
-        `${URL}/cities?minPopulation=100000&namePrefix=${
+        `${GEO_URL}/cities?minPopulation=100000&namePrefix=${
           input != null && input.length > 0 ? input : " "
         }`,
         config
@@ -32,7 +54,7 @@ const Search = ({ onSearchChange }: any) => {
           options: response.data.data.map((city: CityInformation) => {
             return {
               value: `${city.latitude} ${city.longitude}`,
-              label: `${city.name}, ${city.countryCode}`,
+              label: `${city.region}, ${city.countryCode}`,
             };
           }),
         };
@@ -44,9 +66,11 @@ const Search = ({ onSearchChange }: any) => {
 
   return (
     <>
-      <label htmlFor="search-select" className="search-label">Search location: </label>
+      <label htmlFor="search-select" className="search-label">
+        Search location:{" "}
+      </label>
       <AsyncPaginate
-      className="search-select"
+        className="search-select"
         placeholder="Search for city"
         value={search}
         debounceTimeout={600}
@@ -55,6 +79,7 @@ const Search = ({ onSearchChange }: any) => {
         onChange={handleSearchChange}
         loadOptions={loadOptions}
       />
+      <Button onClick={getCurrentLocation}>Check weather of current location</Button>
     </>
   );
 };
