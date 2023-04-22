@@ -10,7 +10,7 @@ class WeatherService {
   getCurrentWeather = (latitude: string, longitude: string) => {
     return axios
       .get(
-        `${CURRENT_WEATHER_API}?lat=${latitude}&lon=${longitude}&appid=${WEATHER_KEY}`
+        `${CURRENT_WEATHER_API}?lat=${latitude}&lon=${longitude}&appid=${WEATHER_KEY}&units=metric`
       )
       .catch((error: Error) => {
         console.log(error);
@@ -21,7 +21,7 @@ class WeatherService {
   getForecastWeather = (latitude: string, longitude: string) => {
     return axios
       .get(
-        `${FORECAST_WEATHER_API}?lat=${latitude}&lon=${longitude}&appid=${WEATHER_KEY}`
+        `${FORECAST_WEATHER_API}?lat=${latitude}&lon=${longitude}&appid=${WEATHER_KEY}&units=metric`
       )
       .catch((error: Error) => {
         console.log(error);
