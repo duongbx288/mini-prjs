@@ -3,6 +3,7 @@ import Search from "./components/search/Search";
 import "./assets/App.css";
 import Weather from "./components/weather/Weather";
 import WeatherService from "./services/WeatherService";
+import Forecast from "./components/forecast/Forecast";
 
 export type SearchData = {
   value: string;
@@ -23,14 +24,13 @@ function App() {
         if (res && res.data) setForecastWeather(res.data);
       });
     }
-    console.log("current", currentWeather);
-    console.log("forecast", forecastWeather);
   }, [searchData]);
 
   return (
     <div className="container">
       <Search onSearchChange={setSearchData} />
-      {currentWeather && <Weather data={currentWeather}/>}
+      {currentWeather != null && <Weather data={currentWeather} />}
+      {forecastWeather != null && <Forecast data={forecastWeather} />}
     </div>
   );
 }
