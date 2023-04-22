@@ -1,6 +1,11 @@
 .title {
   font-size: 23px;
   font-weight: 700;
+  cursor: pointer;
+}
+
+.accordion {
+  margin-top: 5px;
 }
 
 .daily-item {
@@ -13,6 +18,10 @@
   align-items: center;
   font-size: 14px;
   padding: 5px 20px;
+}
+
+.daily-item label {
+  cursor: pointer;
 }
 
 .icon-small {
@@ -44,6 +53,7 @@
     flex: 1 1;
     grid-template-columns: auto auto;
     padding: 5px 15px;
+    cursor: pointer;
 }
 
 .daily-detail-grid-item {
