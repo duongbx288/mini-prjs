@@ -18,21 +18,24 @@ const Search = ({ onSearchChange }: any) => {
 
   const getCurrentLocation = async () => {
     await navigator.geolocation.getCurrentPosition((position) => {
-      console.log("Latitude is :", position.coords.latitude);
-      console.log("Longitude is :", position.coords.longitude);
-      if (position != null &&  position.coords.latitude != null &&  position.coords.longitude != null) {
+      if (
+        position != null &&
+        position.coords.latitude != null &&
+        position.coords.longitude != null
+      ) {
         axios
           .get(
-            `${GEO_URL}/cities?location=%2B${position.coords.latitude.toFixed(4)}%2B${position.coords.longitude.toFixed(4)}`,
+            `${GEO_URL}/cities?minPopulation=100000&location=%2B${position.coords.latitude.toFixed(
+              4
+            )}%2B${position.coords.longitude.toFixed(4)}`,
             config
           )
           .then((result) => {
-            console.log(result);
             if (result.data.data) {
               const response = result.data.data[0];
               setSearch({
                 value: `${response.latitude} ${response.longitude}`,
-                label: `${response.region}, ${response.countryCode}`,
+                label: `${response.name}, ${response.countryCode}`,
               } as Options);
               onSearchChange(`${response.latitude} ${response.longitude}`);
             }
@@ -54,7 +57,7 @@ const Search = ({ onSearchChange }: any) => {
           options: response.data.data.map((city: CityInformation) => {
             return {
               value: `${city.latitude} ${city.longitude}`,
-              label: `${city.region}, ${city.countryCode}`,
+              label: `${city.name}, ${city.countryCode}`,
             };
           }),
         };
@@ -79,7 +82,9 @@ const Search = ({ onSearchChange }: any) => {
         onChange={handleSearchChange}
         loadOptions={loadOptions}
       />
-      <Button onClick={getCurrentLocation}>Check weather of current location</Button>
+      <Button onClick={getCurrentLocation}>
+        Check weather of current location
+      </Button>
     </>
   );
 };
