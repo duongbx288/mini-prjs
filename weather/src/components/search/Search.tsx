@@ -1,14 +1,11 @@
-import { SetStateAction, useEffect, useState } from "react";
-import { AsyncPaginate, LoadOptions } from "react-select-async-paginate";
+import { useEffect, useState } from "react";
+import { AsyncPaginate } from "react-select-async-paginate";
 import {
   CityInformation,
-  Options,
   config,
 } from "../../api/GeoDBApi";
 import axios from "axios";
-import Select from "react-select";
 import { URL } from "../../api/GeoDBApi";
-import { SearchData } from "../../App";
 
 const Search = ({ onSearchChange }: any) => {
   const [search, setSearch] = useState<string>("");
@@ -26,12 +23,9 @@ const Search = ({ onSearchChange }: any) => {
   };
 
   const loadOptions = (input: string) => {
-    console.log('je')
-    if (input && input.length > 0) {
       return axios
-        .get(`${URL}/cities?minPopulation=100000&namePrefix=${input}`, config)
+        .get(`${URL}/cities?minPopulation=100000&namePrefix=${input!= null && input.length > 0 ? input : " "}`, config)
         .then((response) => {
-          console.log(response.data.data);
           return {
             options: response.data.data.map((city: CityInformation) => {
               return {
@@ -44,7 +38,6 @@ const Search = ({ onSearchChange }: any) => {
         .catch(function (error) {
           console.error(error);
         });
-    } else {return []}
   };
 
   return (
@@ -56,7 +49,7 @@ const Search = ({ onSearchChange }: any) => {
         // Error here ?
         // LoadOptions<string, GroupBase<string>, unknown>
         onChange={handleSearchChange}
-        loadOptions={loadOptions || []}
+        loadOptions={loadOptions}
       />
     </>
   );
