@@ -80,7 +80,7 @@ const Search = ({ onSearchChange }: any) => {
         // Error here ?
         // LoadOptions<string, GroupBase<string>, unknown>
         onChange={handleSearchChange}
-        loadOptions={loadOptions}
+        loadOptions={loadOptions || []}
       />
       <Button onClick={getCurrentLocation}>
         Check weather of current location
