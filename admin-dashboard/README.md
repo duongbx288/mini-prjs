@@ -3,3 +3,8 @@
 - can be used as a template in the future
 
 - used reactjs typescript
+
+##### Library used:
+- MUI, data-grid, icons
+- react-router-dom
+- Nivo chart
