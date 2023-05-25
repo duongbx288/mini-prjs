@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./login.scss";
-import { auth } from "../../firebase";
+import { auth } from "../../config/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import useInput from "../../hooks/useInput";
 
