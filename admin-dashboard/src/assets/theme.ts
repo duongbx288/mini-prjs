@@ -195,6 +195,7 @@ export const themeSettings = (mode: string) => {
 };
 
 export const ColorModeContext = createContext({
+
   toggleColorMode: () => {
     return;
   },
@@ -214,5 +215,5 @@ export const useMode = () => {
 
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
 
-  return [theme, colorMode];
+  return [theme, colorMode] as const // infers [Theme, {toggleColorMode: () => void}] instead of (Theme | {toggleColorMode: () => void})[];
 };
