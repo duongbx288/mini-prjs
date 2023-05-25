@@ -1,8 +1,10 @@
 import { createContext, useState, useMemo } from "react";
 import { createTheme } from "@mui/material/styles";
+import { PaletteMode, ThemeOptions } from "@mui/material";
 
 // color design tokens
 // Used Tailwind Shades extension (ctrl+k -> ctrl+g)
+
 
 export const tokens = (mode: string) => ({
   ...(mode === "dark"
@@ -127,7 +129,7 @@ export const themeSettings = (mode: string) => {
   const colors = tokens(mode);
 
   return {
-    pallete: {
+    palette: {
       mode: mode,
       ...(mode === "dark"
         ? {
@@ -191,7 +193,7 @@ export const themeSettings = (mode: string) => {
         fontSize: 14,
       },
     },
-  };
+  } as ThemeOptions;
 };
 
 export const ColorModeContext = createContext({
@@ -212,7 +214,7 @@ export const useMode = () => {
     }),
     []
   );
-
+    
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
 
   return [theme, colorMode] as const // infers [Theme, {toggleColorMode: () => void}] instead of (Theme | {toggleColorMode: () => void})[];
