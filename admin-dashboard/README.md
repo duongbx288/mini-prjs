@@ -8,3 +8,5 @@
 - MUI, data-grid, icons
 - react-router-dom
 - Nivo chart
+
+###### DUCKS pattern (?)
