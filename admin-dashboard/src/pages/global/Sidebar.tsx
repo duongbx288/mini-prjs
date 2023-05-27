@@ -20,17 +20,19 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
+import { To } from "react-router-dom";
 
 interface ItemProps {
-  title: string,
-  to: string,
-  icon: React.ReactNode,
-  selected: string,
-  setSelected: React.Dispatch<React.SetStateAction<string>>
+  title: string;
+  to: string;
+  icon: React.ReactNode;
+  selected: string;
+  setSelected: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Item = ({ title, to, icon, selected, setSelected }: ItemProps) => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
@@ -39,12 +41,13 @@ const Item = ({ title, to, icon, selected, setSelected }: ItemProps) => {
       style={{
         color: colors.grey[100],
       }}
-      onClick={() => {setSelected(title)
+      onClick={() => {
+        setSelected(title);
+        navigate(to);
       }}
       icon={icon}
     >
       <Typography>{title}</Typography>
-      <Link to={to} />
     </MenuItem>
   );
 };
@@ -68,6 +71,9 @@ const SideBar = () => {
         },
         [`.${menuClasses.button}:hover`]: {
           color: "#868dfb",
+          backgroundColor: `${colors.primary[300]} !important`,
+        },
+        [`.${menuClasses.active}`]: {
           backgroundColor: `${colors.primary[300]} !important`,
         },
       }}
