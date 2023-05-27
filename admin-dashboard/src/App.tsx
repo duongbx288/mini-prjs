@@ -4,7 +4,6 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Topbar from "./pages/global/Topbar";
 import { Form, Route, Routes } from "react-router-dom";
-import Sidebar from "./pages/global/Sidebar";
 import Contacts from "./pages/contacts/Contacts";
 import FAQuestions from "./pages/faq/FAQ";
 import Bar from "./pages/bar/Bar";
@@ -14,6 +13,7 @@ import Line from "./pages/line/Line";
 import Team from "./pages/team/Team";
 import Calendar from "./pages/calendar/Calendar";
 import Pie from "./pages/pie/Pie";
+import SideBar from "./pages/global/Sidebar";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -23,9 +23,9 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
+          <SideBar />
           <main className="content">
             <Topbar />
-            <Sidebar/>
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/team" element={<Team />} />
