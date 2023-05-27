@@ -3,7 +3,7 @@ import { ColorModeContext, useMode } from "./assets/theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Topbar from "./pages/global/Topbar";
-import { Form, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Contacts from "./pages/contacts/Contacts";
 import FAQuestions from "./pages/faq/FAQ";
 import Bar from "./pages/bar/Bar";
@@ -14,6 +14,7 @@ import Team from "./pages/team/Team";
 import Calendar from "./pages/calendar/Calendar";
 import Pie from "./pages/pie/Pie";
 import SideBar from "./pages/global/Sidebar";
+import Form from "./pages/form/Form";
 
 function App() {
   const [theme, colorMode] = useMode();
