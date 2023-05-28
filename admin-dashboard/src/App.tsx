@@ -17,30 +17,45 @@ import SideBar from "./pages/global/Sidebar";
 import Form from "./pages/form";
 import Login from "./pages/login/Login";
 
-const ProtectedRoute = () => {
-  const [theme, colorMode] = useMode();
+interface ProtectedRouteProps {
+  children: ReactElement;
+}
+
+const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const currentUser = true;
-  return currentUser ? (
+  return currentUser ? children : <Navigate to="/login" />;
+};
+
+const Homepage = () => {
+  const [theme, colorMode] = useMode();
+  return (
     <ColorModeContext.Provider value={colorMode}>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <div className="app">
-        <SideBar />
-        <main className="content">
-          <Topbar />
-          <Outlet />
-        </main>
-      </div>
-    </ThemeProvider>
-  </ColorModeContext.Provider>
-  ) : <Navigate to="/login"/>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div className="app">
+          <SideBar />
+          <main className="content">
+            <Topbar />
+            <Outlet />
+          </main>
+        </div>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
+  );
 };
 
 const App = () => {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/" element={<ProtectedRoute />}>
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Homepage />
+          </ProtectedRoute>
+        }
+      >
         <Route path="" element={<Dashboard />} />
         <Route path="team" element={<Team />} />
         <Route path="contacts" element={<Contacts />} />
