@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useState } from "react";
+import { ReactElement, ReactNode, useContext, useState } from "react";
 import { ColorModeContext, useMode } from "./assets/theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import Dashboard from "./pages/dashboard";
@@ -16,13 +16,15 @@ import Pie from "./pages/pie";
 import SideBar from "./pages/global/Sidebar";
 import Form from "./pages/form";
 import Login from "./pages/login/Login";
+import { FirebaseAuthContext, FirebaseAuthProvider } from "./context/AuthContext";
 
 interface ProtectedRouteProps {
   children: ReactElement;
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const currentUser = true;
+  const value = useContext(FirebaseAuthContext);
+  const currentUser = value && value.user ? value.user : null;
   return currentUser ? children : <Navigate to="/login" />;
 };
 
@@ -45,7 +47,9 @@ const Homepage = () => {
 };
 
 const App = () => {
+  const value = FirebaseAuthProvider();
   return (
+    <FirebaseAuthContext.Provider value={value}>
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route
@@ -69,6 +73,7 @@ const App = () => {
         <Route path="calendar" element={<Calendar />} />
       </Route>
     </Routes>
+    </FirebaseAuthContext.Provider>
   );
 };
 

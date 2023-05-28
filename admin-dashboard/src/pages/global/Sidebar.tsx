@@ -19,9 +19,10 @@ import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
 import { To } from "react-router-dom";
+import { FirebaseAuthContext } from "../../context/AuthContext";
 
 interface ItemProps {
   title: string;
@@ -57,7 +58,9 @@ const SideBar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  console.log(selected);
+
+  const value = useContext(FirebaseAuthContext);
+
   return (
     <Sidebar
       collapsed={isCollapsed}
@@ -198,6 +201,9 @@ const SideBar = () => {
             selected={selected}
             setSelected={setSelected}
           />
+          <MenuItem
+            onClick={value?.logout}  
+          >Logout</MenuItem>
         </Box>
       </Menu>
     </Sidebar>
