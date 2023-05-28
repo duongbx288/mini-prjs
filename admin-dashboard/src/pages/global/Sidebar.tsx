@@ -64,29 +64,23 @@ const SideBar = () => {
       rootStyles={{
         [`.${sidebarClasses.container}`]: {
           background: `${colors.primary[400]} !important`,
-          backgroundColor: "transparent",
+          backgroundColor: "transparent !important",
         },
         [`.${sidebarClasses.root}`]: {
           border: "0px !important",
         },
         [`.${menuClasses.button}:hover`]: {
-          color: "#868dfb",
+          color: "whitesmoke !important",
           backgroundColor: `${colors.primary[300]} !important`,
         },
         [`.${menuClasses.active}`]: {
+          color: `whitesmoke !important`,
           backgroundColor: `${colors.primary[300]} !important`,
         },
       }}
     >
       <Menu>
-        <MenuItem
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-          style={{
-            margin: "10px 0 20px 0",
-            color: colors.grey[100],
-          }}
-        >
+        <Box display="flex" justifyContent={"space-between"}>
           {!isCollapsed && (
             <Box
               display="flex"
@@ -97,12 +91,12 @@ const SideBar = () => {
               <Typography variant="h4" color={colors.grey[100]}>
                 ADMINIS
               </Typography>
-              <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                <MenuOutlinedIcon />
-              </IconButton>
             </Box>
           )}
-        </MenuItem>
+          <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+            <MenuOutlinedIcon />
+          </IconButton>
+          </Box>
         <Box>
           <Item
             title="Dashboard"
