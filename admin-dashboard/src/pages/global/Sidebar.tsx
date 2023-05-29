@@ -18,6 +18,7 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -98,7 +99,7 @@ const SideBar = () => {
           <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
             <MenuOutlinedIcon />
           </IconButton>
-          </Box>
+        </Box>
         <Box>
           <Item
             title="Dashboard"
@@ -200,9 +201,16 @@ const SideBar = () => {
             selected={selected}
             setSelected={setSelected}
           />
-          <MenuItem
-            onClick={value?.logout}  
-          >Logout</MenuItem>
+          <Typography
+            variant="h6"
+            color={colors.grey[300]}
+            sx={{ m: "15px 0 5px 20px" }}
+          >
+            User
+          </Typography>
+          <MenuItem onClick={value?.logout} icon={<LogoutOutlinedIcon />}>
+            <Typography>Logout</Typography>
+          </MenuItem>
         </Box>
       </Menu>
     </Sidebar>
