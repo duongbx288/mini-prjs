@@ -3,9 +3,6 @@ import { useState } from "react";
 const useLocalStorage = <T>(keyName: string, defaultValue: T | (() => T)) => {
   const [storedValue, setStoredValue] = useState(() => {
     try {
-      if (defaultValue == null) {
-        window.localStorage.removeItem(keyName);
-      }
       const value = window.localStorage.getItem(keyName);
       if (value && value != null) {
         return JSON.parse(value);
