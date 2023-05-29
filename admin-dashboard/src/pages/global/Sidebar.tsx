@@ -20,8 +20,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useContext, useState } from "react";
-import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
-import { To } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FirebaseAuthContext } from "../../context/AuthContext";
 
 interface ItemProps {

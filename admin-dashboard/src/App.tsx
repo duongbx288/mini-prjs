@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useContext, useState } from "react";
+import { ReactElement, useContext } from "react";
 import { ColorModeContext, useMode } from "./assets/theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import Dashboard from "./pages/dashboard";
