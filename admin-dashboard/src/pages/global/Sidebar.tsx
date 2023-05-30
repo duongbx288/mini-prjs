@@ -62,12 +62,15 @@ const SideBar = () => {
   const value = useContext(FirebaseAuthContext);
 
   return (
+    <Box sx={{ height: "100%"}}>
     <Sidebar
+      // breakPoint="sm"
       collapsed={isCollapsed}
       rootStyles={{
         [`.${sidebarClasses.container}`]: {
           background: `${colors.primary[400]} !important`,
           backgroundColor: "transparent !important",
+          height: "-webkit-fill-available",
         },
         [`.${sidebarClasses.root}`]: {
           border: "0px !important",
@@ -214,6 +217,7 @@ const SideBar = () => {
         </Box>
       </Menu>
     </Sidebar>
+    </Box>
   );
 };
 
