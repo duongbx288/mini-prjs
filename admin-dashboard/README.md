@@ -6,6 +6,7 @@
 
 ##### Library used:
 - MUI, data-grid, icons
+- formik
 - react-router-dom
 - Nivo chart
 
