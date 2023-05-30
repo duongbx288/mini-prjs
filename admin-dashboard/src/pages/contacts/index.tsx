@@ -3,7 +3,7 @@ import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Grid, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../assets/theme";
 import Header from "../../components/Header";
 const Contacts = () => {
@@ -55,8 +55,11 @@ const Contacts = () => {
   ];
 
   return (
+
     <Box m="20px">
       <Header title="CONTACTS" subtitle="Lists of Contacts" />
+      <Grid container display="flex">
+        <Grid item xs={11.5}>
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -92,7 +95,10 @@ const Contacts = () => {
           slots={{ toolbar: GridToolbar }}
         />
       </Box>
+      </Grid>
+      </Grid>
     </Box>
+
   );
 };
 
