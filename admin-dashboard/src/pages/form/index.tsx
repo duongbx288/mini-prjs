@@ -3,6 +3,9 @@ import * as yup from "yup";
 import { Formik, FormikProps, FormikValues, withFormik } from "formik";
 import Header from "../../components/Header";
 import { useState } from "react";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../../config/firebase";
+import { addData } from "../../config/firebaseDb";
 
 interface FormValues {
   firstName: string;
@@ -15,14 +18,6 @@ interface FormValues {
 interface OtherProps {
   message: string;
 }
-
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  contact: "",
-  address: "",
-};
 
 const userSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -130,7 +125,7 @@ interface UserFormProps {
 const CustomForm = withFormik<UserFormProps, OtherProps>({
   validationSchema: userSchema,
   handleSubmit: (values) => {
-    console.log(values);
+    addData(values, "cities", "LA");
   },
 })(InnerForm);
 
