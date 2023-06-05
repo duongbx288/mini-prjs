@@ -2,10 +2,9 @@ import { Box, Button, TextField, useMediaQuery } from "@mui/material";
 import * as yup from "yup";
 import { Formik, FormikProps, FormikValues, withFormik } from "formik";
 import Header from "../../components/Header";
-import { useState } from "react";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../../config/firebase";
-import { addData } from "../../config/firebaseDb";
+import { addData, createNewUser } from "../../config/firebaseDb";
+import { useContext } from "react";
+import { FirebaseAuthContext } from "../../context/AuthContext";
 
 interface FormValues {
   firstName: string;
@@ -13,10 +12,14 @@ interface FormValues {
   email: string;
   contact: string;
   address: string;
+  password: string;
 }
 
 interface OtherProps {
   message: string;
+  createUser: (email: string, password: string) => void;
+  email: string;
+  password: string;
 }
 
 const userSchema = yup.object().shape({
@@ -25,9 +28,10 @@ const userSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("required"),
   contact: yup.string().required("required"),
   address: yup.string().required("required"),
+  password: yup.string().required("required"),
 });
 
-const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
+const InnerForm = (props: OtherProps & FormikProps<FormValues>  ) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     props;
@@ -78,7 +82,20 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
           name="email"
           error={!!touched.email && !!errors.email}
           helperText={touched.email && errors.email}
-          sx={{ gridColumn: "span 4" }}
+          sx={{ gridColumn: "span 2" }}
+        />
+        <TextField
+          fullWidth
+          variant="filled"
+          type="password"
+          label="Password"
+          onBlur={handleBlur}
+          onChange={handleChange}
+          value={values.password}
+          name="password"
+          error={!!touched.password && !!errors.password}
+          helperText={touched.password && errors.password}
+          sx={{ gridColumn: "span 2" }}
         />
         <TextField
           fullWidth
@@ -120,16 +137,20 @@ interface UserFormProps {
   email: string;
   contact: string;
   address: string;
+  password: string;
 }
 
-const CustomForm = withFormik<UserFormProps, OtherProps>({
+const CustomForm = withFormik<UserFormProps, FormValues>({
   validationSchema: userSchema,
   handleSubmit: (values) => {
-    addData(values, "cities", "LA");
+    createNewUser(values.email, values.password);
+    addData(values, "cities");
   },
 })(InnerForm);
 
 const Form = () => {
+
+
   return (
     <Box m="20px">
       <Header title="ADD USER" subtitle="Create a new user profile" />
@@ -139,6 +160,7 @@ const Form = () => {
         email=""
         address=""
         contact=""
+        password=""
       />
     </Box>
   );
